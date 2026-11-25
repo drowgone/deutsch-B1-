@@ -1,0 +1,13 @@
+/movie/
+/.movie-cache/
+/.platform-data/
+/.speech-runtime/
+__pycache__/
+*.py[cod]
+*.sqlite*
+*.log
+*.tar
+*.tar.*
+*.mkv
+.env
+.env.*

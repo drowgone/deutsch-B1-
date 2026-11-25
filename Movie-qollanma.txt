@@ -1,0 +1,63 @@
+Movie — nemischa shadowing
+
+Filmni movie/ papkasiga .mkv shaklida ko‘chiring.
+Shu loyiha papkasida terminal oching va ishga tushiring:
+
+    ./start.sh
+
+Skript mahalliy serverni ishga tushirib, platformani brauzerda ochadi. Terminalni
+ochiq qoldiring. Serverni to‘xtatish uchun Ctrl+C bosing.
+Shu kompyuterda Ctrl+K platformani terminal ochmasdan ishga tushiradi.
+Fonda ishga tushirish buyrug‘i: ./start.sh --background
+Server jurnali .platform-data/server.log, brauzer jurnali esa
+.platform-data/browser.log ichida saqlanadi.
+To‘plamdagi nutq modeli va PGS dekoderi Linux x86-64, Python 3.13 uchun o‘rnatilgan. FFmpeg va FFprobe kerak.
+Movie tabiga to‘g‘ridan to‘g‘ri kirish:
+http://127.0.0.1:8743/?movie
+
+O‘qish tarixi, darslar, lug‘at va sozlamalarni bir kompyuterda turli brauzerlardan
+ochish uchun http://127.0.0.1:8743/ manzilidan foydalaning. Ma’lumotlar loyiha
+papkasidagi .platform-data/profile.sqlite3 fayliga saqlanadi. Loyiha papkasini
+ko‘chirganda .platform-data yashirin papkasini ham qo‘shing.
+Eski ma’lumotlar shu manzilda saqlangan bo‘lsa, avval o‘sha brauzerda platformani
+yangilang. Agar platformani HTML fayl sifatida ochib kelgan bo‘lsangiz,
+o‘sha brauzerda «Dars qo‘shish → Zaxira nusxa» orqali JSON faylni yuklab oling.
+Keyin server manzilini ochib, shu oynadan JSON nusxani tiklang.
+Rang rejimi odatda tizimga moslashadi. Headerdagi rang rejimi tugmasi bilan
+«Tizim», «Kunduzgi» va «Tungi» rejimlar o‘rtasida o‘tish mumkin.
+
+Server yangi fayllarni kuzatadi. Brauzer video va tanlangan audio trekni
+bevosita ijro qila olsa, pleyer asl MKV faylini ochadi. Uzun filmning video kodeki mos kelmasa, server tanlangan joydan
+720p gacha oqim uzata oladi. Alohida MP4 kerak bo‘lganda tayyorlanish foizi ko‘rinadi.
+Matnli subtitr alohida tayyorlanadi. Kesh .movie-cache/ ichida saqlanadi.
+Joy bo‘shatish uchun server to‘xtatilganda shu keshni tozalash mumkin.
+
+Nemischa trek til belgisi yoki nomidan aniqlanadi. Matnli subtitr pleyer
+uslubida chiqadi. «Subtitr treki» ro‘yxatida MKV ichidagi va film yonidagi bir xil nom bilan boshlanuvchi .srt va .vtt subtitrlar chiqadi.
+«Subtitr ochish» orqali shu filmga mos .srt yoki .vtt faylini tanlang. Subtitr
+loyiha bazasiga saqlanib, film qayta ochilganda ham tanlash mumkin bo‘ladi.
+«Birinchi jumla» tugmasi film boshidagi sukutni o‘tkazib yuboradi. PGS tanlansa, uning asl yozuvi rasm sifatida ko‘rinadi.
+Matnli subtitrda ro‘yxatdan jumlani tanlang va «Jumlani takrorlash»ni bosing.
+Istalgan parchani takrorlash uchun boshlanishida A, oxirida B tugmasini bosing.
+
+«Deutsch · so‘zma-so‘z (avtomatik)» treki nemischa ovozdan so‘zlarni va ularning vaqtini
+mahalliy Vosk modeli bilan aniqlaydi. Yangi filmda kerakli parcha birinchi
+ochilganda tahlil qilinadi. Sukutda yozuv yo‘qoladi. Shovqin, musiqa yoki
+bir vaqtda bir necha odam gapirishi natijaga ta’sir qilishi mumkin.
+
+VLC uchun boshqa filmga ham to‘liq so‘zma-so‘z SRT tayyorlash:
+    python3 movie_words.py "movie/film.mkv"
+Hosil bo‘lgan .auto.words.de.srt film yonida turadi. VLC’da «Subtitle Track»
+ro‘yxatidan yoki «Add Subtitle File…» orqali tanlash mumkin.
+
+Movie oxirgi tanlangan filmni va har bir filmning ijro joyini loyiha bazasida
+saqlaydi. Avval ijro ketayotgan bo‘lsa, qaytganda davom etadi. Brauzer
+avtomatik ijroni bloklasa, «Ijro etish»ni bosish kifoya.
+Dialoglarni qidirib, qatorni bosish orqali o‘sha vaqtga o‘ting.
+Pleyer fokusda bo‘lsa, Space — ijro/pauza, ←/→ — 10 soniya, F — to‘liq ekran,
+C — subtitr, M — ovoz. To‘liq ekranda Shadowing panelini boshqaruvdan oching.
+
+«Subtitr ko‘rinishi» sozlamasi Movie va vebdagi matn tinglash paneliga
+birgalikda qo‘llanadi. «Ibora + urg‘u» butun iborani ko‘rsatadi va
+vaqt belgisi bor joriy so‘zni ajratadi. «Faqat ibora» urg‘uni o‘chiradi,
+«Bitta so‘z» esa vaqt belgisi bor joriy so‘zni ko‘rsatadi.

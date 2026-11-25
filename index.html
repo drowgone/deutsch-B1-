@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches);</script>
+  <title>Deutsch B1 — Katta Masshtabli Nemis Tili Platformasi</title>
+  <meta name="description" content="5 oylik noldan B1 gacha nemis tili o'quv platformasi: kunlik jadval darslari, 100+ so'zlik matnlar, Goethe-Zertifikat mashqlari, SRS va grammatika." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230f172a'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23f59e0b' font-family='sans-serif' font-weight='800' font-size='28'%3EDE%3C/text%3E%3C/svg%3E" />
+  <script src="assets/vendor/tailwind-3.4.17.js"></script>
+  <script src="assets/vendor/lucide-0.460.0.js"></script>
+  <script src="assets/vendor/chart-4.4.1.js"></script>
+  <link rel="stylesheet" href="assets/fonts/inter.css">
+  <link rel="stylesheet" href="assets/pomodoro-theme.css?v=21">
+  <link rel="stylesheet" href="assets/platforma.css?v=14">
+  <link rel="stylesheet" href="assets/movie.css?v=17">
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Top Slim Progress Bar -->
+  <div id="top-progress-bar" aria-hidden="true"></div>
+  <!-- Brief Initial Loading Progress Splash -->
+  <div id="app-loader" role="status" aria-live="polite">
+    <div class="w-14 h-14 rounded-2xl bg-amber-500 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg mb-4">DE</div>
+    <div class="text-base font-extrabold tracking-tight">Deutsch B1 Platforma</div>
+    <div id="loader-status" class="text-xs text-slate-400 mt-1 mb-4">Kunlik darslar va lug'at bazasi yuklanmoqda...</div>
+    <div class="w-56 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+      <div id="loader-bar-fill" class="h-full bg-amber-400 rounded-full transition-all duration-300" style="width: 25%"></div>
+    </div>
+    <div class="mt-6 w-72 sm:w-96 grid grid-cols-3 gap-2.5 opacity-80" aria-hidden="true">
+      <div class="h-12 rounded-xl skeleton-box"></div>
+      <div class="h-12 rounded-xl skeleton-box"></div>
+      <div class="h-12 rounded-xl skeleton-box"></div>
+      <div class="col-span-3 h-16 rounded-xl skeleton-box"></div>
+    </div>
+  </div>
+  <!-- Subtle German Flag Top Accent -->
+  <div class="german-bar h-1.5 w-full sticky top-0 z-50"></div>
+  <div id="offline-banner" class="hidden bg-amber-500 text-slate-950 text-xs font-bold text-center py-1.5 px-4">Internet aloqasi uzildi. Loyiha serveri ishlayotgan bo‘lsa, o‘zgarishlar loyiha papkasiga saqlanadi.</div>
+
+  <!-- Top Header & Navigation -->
+  <header id="platform-header" class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-1.5 z-40">
+    <div class="platform-header-content">
+      <div class="platform-header-row">
+        <!-- Brand -->
+        <div class="platform-brand-stack">
+          <button id="brand-home-btn" type="button" aria-label="Deutsch B1 bosh sahifasi" class="platform-brand group">
+            <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-extrabold text-sm shadow-sm group-hover:bg-slate-800 transition">
+              <span>DE</span>
+            </div>
+            <span class="platform-brand-name"><span class="brand-ink-letter">D</span>eu<span class="brand-ink-letter">t</span>sch <span class="brand-ink-letter">B</span>1</span>
+          </button>
+          <div id="focus-timer-dock" hidden></div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="platform-nav-shell">
+          <nav class="platform-header-nav bg-slate-100/80 rounded-xl" aria-label="Asosiy menyu">
+            <button type="button" data-nav="dashboard" aria-label="Bosh sahifa" title="Bosh sahifa" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Bosh sahifa</span>
+            </button>
+            <button type="button" data-nav="lessons" aria-label="Darslar" title="Darslar" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="book-open" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Darslar</span>
+            </button>
+            <button type="button" data-nav="vocab" aria-label="So‘zlar" title="So‘zlar" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="languages" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>So'zlar</span>
+            </button>
+            <button type="button" data-nav="practice" aria-label="Kartalar" title="Kartalar" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Kartalar</span>
+            </button>
+            <button type="button" data-nav="grammar" aria-label="Grammatika" title="Grammatika" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="book-marked" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Grammatika</span>
+            </button>
+            <button type="button" data-nav="goethe" aria-label="Goethe va matn" title="Goethe va matn" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="award" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Goethe &amp; Matn</span>
+            </button>
+            <button type="button" data-nav="movie" aria-label="Media" title="Media" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="monitor-play" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Media</span>
+            </button>
+            <button type="button" data-nav="roadmap" aria-label="Reja" title="Reja" class="nav-btn whitespace-nowrap px-2 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+              <i data-lucide="calendar-clock" class="w-3.5 h-3.5 shrink-0"></i>
+              <span>Reja</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="platform-header-controls">
+          <button id="open-sync-btn" type="button" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-sm" title="Jadvaldan yangi dars qo‘shish" aria-label="Yangi dars qo‘shish">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+            <span class="platform-add-label">Dars qo‘shish</span>
+          </button>
+          <button id="global-search-btn" type="button" aria-label="Tezkor qidiruv" class="flex items-center gap-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition" title="Tezkor qidiruv (Ctrl+K)">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          </button>
+          <details class="sound-settings" id="sound-settings">
+            <summary aria-label="Ovoz sozlamalari" title="Ovoz sozlamalari"><i data-lucide="volume-2" class="w-4 h-4" aria-hidden="true"></i><span id="sound-current-rate" aria-hidden="true">1×</span></summary>
+            <div class="sound-options" role="group" aria-label="Ovoz sozlamalari">
+              <strong>Ovoz sozlamalari</strong>
+              <div class="sound-rate-card">
+                <div><label for="sound-rate">O‘qish tezligi</label><output id="sound-rate-value" for="sound-rate">1×</output></div>
+                <input type="range" id="sound-rate" list="sound-rate-stops" aria-describedby="sound-rate-hint" min="0.5" max="2" step="0.01" value="1">
+                <datalist id="sound-rate-stops"><option value="0.5"></option><option value="0.7"></option><option value="1"></option><option value="1.3"></option><option value="1.5"></option><option value="2"></option></datalist>
+                <div class="sound-rate-scale" role="group" aria-label="Tezlik darajalari"><button type="button" data-rate-stop="0.5" style="--mark:0%" aria-label="O‘qish tezligi 0.5×">0.5</button><button type="button" data-rate-stop="0.7" style="--mark:13.333%" aria-label="O‘qish tezligi 0.7×">0.7</button><button type="button" data-rate-stop="1" style="--mark:33.333%" aria-label="O‘qish tezligi 1×">1</button><button type="button" data-rate-stop="1.3" style="--mark:53.333%" aria-label="O‘qish tezligi 1.3×">1.3</button><button type="button" data-rate-stop="1.5" style="--mark:66.667%" aria-label="O‘qish tezligi 1.5×">1.5</button><button type="button" data-rate-stop="2" style="--mark:100%" aria-label="O‘qish tezligi 2×">2</button></div>
+                <p id="sound-rate-hint">Surib yoki raqamni bosib tanlang. O‘qish davomida tezlik keyingi jumladan o‘zgaradi.</p>
+              </div>
+              <button type="button" id="sound-effects-toggle" role="switch" aria-checked="true"><span>Tizim ovozi</span><span class="sound-state" aria-hidden="true"></span></button>
+              <button type="button" id="avatar-sound-toggle" role="switch" aria-checked="true"><span>Avatar ovozi</span><span class="sound-state" aria-hidden="true"></span></button>
+            </div>
+          </details>
+          <button id="theme-toggle-btn" type="button" aria-label="Rang rejimi — Tizim" title="Rang rejimi — Tizim" class="p-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition">
+            <span data-theme-icon="system" aria-hidden="true"><i data-lucide="monitor" class="w-4 h-4"></i></span>
+            <span data-theme-icon="light" aria-hidden="true" hidden><i data-lucide="sun" class="w-4 h-4 text-amber-600"></i></span>
+            <span data-theme-icon="dark" aria-hidden="true" hidden><i data-lucide="moon" class="w-4 h-4 text-amber-400"></i></span>
+          </button>
+          <button id="shortcuts-btn" type="button" aria-label="Klaviatura tugmalari" title="Kompyuter tugmalari (?)" class="inline-flex p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
+            <i data-lucide="keyboard" class="w-4 h-4"></i>
+          </button>
+          <button id="mobile-menu-btn" type="button" class="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50" aria-label="Menyuni ochish">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile / Tablet Collapsible Menu -->
+      <div id="mobile-menu" class="hidden">
+        <nav class="platform-menu-links" aria-label="Asosiy menyu">
+          <button type="button" data-nav="dashboard" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Bosh sahifa</span>
+          </button>
+          <button type="button" data-nav="lessons" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="book-open" class="w-4 h-4"></i><span>Darslar</span>
+          </button>
+          <button type="button" data-nav="vocab" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="languages" class="w-4 h-4"></i><span>Yangi so'zlar</span>
+          </button>
+          <button type="button" data-nav="practice" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="sparkles" class="w-4 h-4"></i><span>Fleshkartalar</span>
+          </button>
+          <button type="button" data-nav="grammar" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="book-marked" class="w-4 h-4"></i><span>Grammatika</span>
+          </button>
+          <button type="button" data-nav="goethe" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="award" class="w-4 h-4"></i><span>Goethe &amp; Matn</span>
+          </button>
+          <button type="button" data-nav="movie" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="monitor-play" class="w-4 h-4"></i><span>Media</span>
+          </button>
+          <button type="button" data-nav="roadmap" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 justify-center">
+            <i data-lucide="calendar-clock" class="w-4 h-4"></i><span>Reja va taymer</span>
+          </button>
+        </nav>
+        <div class="platform-menu-tools" role="group" aria-label="Platforma sozlamalari">
+          <button type="button" data-header-action="shortcuts-btn"><i data-lucide="keyboard" aria-hidden="true"></i><span>Klaviatura tugmalari</span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main id="app-root" tabindex="-1" aria-busy="true" class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20"></main>
+
+  <footer class="study-footer" aria-label="O‘quv platformasi">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-identity">
+          <button type="button" data-nav="dashboard" class="footer-brand" aria-label="Deutsch B1 bosh sahifasi">
+            <span class="footer-monogram" aria-hidden="true">DE</span><strong>Deutsch B1</strong>
+          </button>
+          <p>5 oylik B1 dasturi · Har kuni 09:00</p>
+          <button type="button" data-nav="lessons" class="footer-lesson">
+            <i data-lucide="book-open" aria-hidden="true"></i><span id="footer-lesson">Darsni davom ettirish</span><i data-lucide="arrow-right" aria-hidden="true"></i>
+          </button>
+        </div>
+        <nav class="footer-practice" aria-label="Mustaqil mashq">
+          <h2>Mashq qilish</h2>
+          <button type="button" data-nav="vocab"><i data-lucide="languages" aria-hidden="true"></i>Lug‘at</button>
+          <button type="button" data-nav="practice"><i data-lucide="layers" aria-hidden="true"></i>Kartalar</button>
+          <button type="button" data-nav="movie"><i data-lucide="monitor-play" aria-hidden="true"></i>Media</button>
+        </nav>
+        <div class="footer-plan">
+          <button type="button" data-nav="roadmap" class="footer-plan-link">
+            <strong>Bugungi reja</strong><span id="footer-blocks"></span><i data-lucide="arrow-up-right" aria-hidden="true"></i>
+          </button>
+          <progress id="footer-progress" aria-label="Bugun bajarilgan dars bloklari"></progress>
+          <div id="footer-focus-timer"></div>
+        </div>
+      </div>
+      <div class="footer-tools">
+        <button type="button" id="footer-search" aria-haspopup="dialog"><i data-lucide="search" aria-hidden="true"></i>Qidiruv <kbd>Ctrl+K</kbd></button>
+        <button type="button" id="footer-shortcuts" aria-haspopup="dialog"><i data-lucide="keyboard" aria-hidden="true"></i>Klaviatura <kbd>?</kbd></button>
+        <button type="button" id="footer-top"><i data-lucide="arrow-up" aria-hidden="true"></i>Yuqoriga</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL 1: Add Custom Word -->
+  <div id="add-word-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full border border-slate-200 overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-base">Yangi so'z qo'shish</h3>
+        <button id="close-modal-btn" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form id="add-word-form" class="p-5 space-y-4">
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label for="cw-article" class="block text-xs font-semibold text-slate-600 mb-1">Artikl / Tur</label>
+            <select id="cw-article" class="w-full rounded-lg border border-slate-300 px-2.5 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none">
+              <option value="der">der (erkak)</option>
+              <option value="die">die (ayol)</option>
+              <option value="das">das (o'rta)</option>
+              <option value="verb">Fe'l</option>
+              <option value="other">Boshqa</option>
+            </select>
+          </div>
+          <div class="col-span-2">
+            <label for="cw-de" class="block text-xs font-semibold text-slate-600 mb-1">Nemischa so'z *</label>
+            <input id="cw-de" type="text" required placeholder="Masalan: Bahnhof" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="cw-plural" class="block text-xs font-semibold text-slate-600 mb-1">Ko'plik / Perfekt</label>
+            <input id="cw-plural" type="text" placeholder="die Bahnhöfe" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+          </div>
+          <div>
+            <label for="cw-pron" class="block text-xs font-semibold text-slate-600 mb-1">Talaffuzi</label>
+            <input id="cw-pron" type="text" placeholder="ba:n-xof" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label for="cw-uz" class="block text-xs font-semibold text-slate-600 mb-1">O'zbekcha tarjimasi *</label>
+          <input id="cw-uz" type="text" required placeholder="vokzal" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button id="cancel-modal-btn" type="button" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 rounded-lg text-sm font-semibold bg-slate-900 text-white hover:bg-slate-800">Saqlash</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Schedule Lesson Import, Bulk Words & IndexedDB Backup -->
+  <div id="sync-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0">
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-base">Jadval darsini qo'shish va Baza boshqaruvi</h3>
+          <p class="text-xs text-slate-500">IndexedDB dvigateli · 500+ dars va 3000+ so'zni bemalol saqlaydi</p>
+        </div>
+        <button id="close-sync-modal-btn" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Tabs -->
+      <div class="flex items-center gap-1 px-6 pt-3 border-b border-slate-100 shrink-0 overflow-x-auto">
+        <button type="button" data-sync-tab="schedule" class="sync-tab-btn px-3.5 py-2 text-xs font-bold border-b-2 transition whitespace-nowrap">1. Jadval xabaridan import</button>
+        <button type="button" data-sync-tab="bulk" class="sync-tab-btn px-3.5 py-2 text-xs font-bold border-b-2 transition whitespace-nowrap">2. Ommaviy so'zlar (CSV/JSON)</button>
+        <button type="button" data-sync-tab="backup" class="sync-tab-btn px-3.5 py-2 text-xs font-bold border-b-2 transition whitespace-nowrap">3. Zaxira nusxa (PC ↔ Mobil)</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4">
+        <!-- Pane 1: Import from Schedule Chat -->
+        <div id="sync-pane-schedule" class="space-y-4">
+          <div class="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200/80 text-xs text-slate-700 leading-relaxed">
+            <strong>Har kuni 09:00 da keladigan Gemini darsini qo'shish:</strong> Chatdagi dars oxiridagi <code class="px-1 py-0.5 rounded bg-white border border-amber-200 font-mono">json</code> blokini <strong>yoki</strong> butun dars matnini ko'chirib quyiga tashlang. Dars, qoidalar, mashqlar va barcha yangi so'zlar avtomatik saytga qo'shiladi!
+          </div>
+          <div>
+            <p class="text-xs text-slate-600 mb-2"><code>words</code> ichida <code>meaningDe</code> nemischa izohni, <code>difficulty</code> esa <code>oson</code>, <code>o'rta</code> yoki <code>qiyin</code> darajasini belgilaydi.</p>
+            <p class="text-xs text-slate-600 mb-2"><code>video.url</code> maydoniga YouTube video havolasini yozing. Nomi, kanali va tavsifi uchun <code>video.title</code>, <code>video.channel</code>, <code>video.description</code> maydonlaridan foydalaning.</p>
+            <label for="schedule-paste-input" class="block text-xs font-bold text-slate-700 mb-1.5">Jadval darsi matni yoki JSON kodi</label>
+            <textarea id="schedule-paste-input" rows="8" placeholder='Masalan, jadval xabaridagi {"id": 13, "level": "A1.2", "title": "...", ...} JSON kodini yoki oddiy dars matnini shu yerga joylashtiring...' class="w-full rounded-xl border border-slate-300 p-3 text-xs font-mono focus:ring-2 focus:ring-slate-900 focus:outline-none"></textarea>
+          </div>
+          <div class="flex items-center justify-between gap-2">
+            <button id="load-sample-json-btn" type="button" class="text-xs font-semibold text-amber-700 hover:underline">Namuna JSON shablonini ko'rish</button>
+            <button id="import-schedule-lesson-btn" type="button" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center gap-1.5">
+              <i data-lucide="download-cloud" class="w-4 h-4"></i>
+              <span>Dars va so'zlarni saytga qo'shish</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pane 2: Bulk CSV / JSON Words -->
+        <div id="sync-pane-bulk" class="hidden space-y-4">
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">
+            <strong>3000+ so'zni bir zumda yuklash:</strong> Har bir qatorda <code class="font-mono">artikl;nemischa;ko'plik;talaffuz;o'zbekcha</code> (yoki vergul bilan) yozing yoki JSON massiv kiriting.
+          </div>
+          <textarea id="bulk-words-input" rows="7" placeholder="der;Bahnhof;die Bahnhöfe;der ba:n-xof;vokzal&#10;die;Brücke;die Brücken;di bryuke;ko'prik&#10;das;Flugzeug;die Flugzeuge;das flugtsoyk;samolyot" class="w-full rounded-xl border border-slate-300 p-3 text-xs font-mono focus:ring-2 focus:ring-slate-900 focus:outline-none"></textarea>
+          <div class="flex items-center justify-between gap-2">
+            <span id="bulk-db-stats" class="text-xs text-slate-500"></span>
+            <button id="import-bulk-words-btn" type="button" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">
+              So'zlarni bazaga qo'shish
+            </button>
+          </div>
+        </div>
+
+        <!-- Pane 3: Full Database Backup / Restore -->
+        <div id="sync-pane-backup" class="hidden space-y-4">
+          <div id="lesson13-import-recovery" class="hidden p-4 rounded-xl border border-slate-200 space-y-2">
+            <p class="text-xs text-slate-700">13-darsning lug‘atga xato qo‘shilgan yozuvlari tiklash uchun saqlandi.</p>
+            <button id="restore-lesson13-import-btn" type="button" class="px-3 py-2 rounded-lg border border-slate-200 text-xs font-bold">Xato importni qaytarish</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+              <div class="text-xs font-bold text-slate-500 mb-1">Saqlash dvigateli</div>
+              <div id="db-engine-label" class="text-sm font-extrabold text-emerald-700">IndexedDB (Katta hajmli baza)</div>
+              <div id="db-counts-label" class="text-xs text-slate-500 mt-1">Yuklanmoqda...</div>
+            </div>
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between gap-2">
+              <div class="text-xs font-bold text-slate-500">Zaxira nusxalari</div>
+              <p class="text-xs text-slate-500 mt-1" id="profile-storage-note"></p>
+              <button id="download-backup-btn" type="button" class="w-full px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Profilni saqlash (.json)</span>
+              </button>
+              <button id="download-project-backup-btn" type="button" class="w-full px-4 py-2 rounded-lg bg-amber-100 text-amber-900 text-xs font-bold hover:bg-amber-200">Butun loyiha (.tar)</button>
+              <p class="text-xs text-slate-500">TAR film fayllari va platformani ham saqlaydi. Tiklash uchun arxivni bo‘sh papkada ochib, start.sh ni ishga tushiring.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 space-y-2.5">
+            <div class="text-xs font-bold text-slate-800">Zaxira fayldan tiklash (.json)</div>
+            <p class="text-xs text-slate-500">JSON joriy profilni zaxiradagi darslar, natijalar, sozlamalar va oxirgi o‘rningiz bilan almashtiradi. Film fayllari alohida saqlanadi.</p>
+            <input id="restore-backup-input" type="file" accept=".json,application/json" class="block w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Global Quick Search (Ctrl+K) -->
+  <div id="search-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-start justify-center pt-16 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full border border-slate-200 overflow-hidden">
+      <div class="flex items-center gap-2.5 px-4 py-3 border-b border-slate-100">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+        <input id="global-search-input" type="text" placeholder="Dars mavzusi, nemischa yoki o'zbekcha so'z qidiring..." class="flex-1 text-sm bg-transparent border-0 focus:outline-none" />
+        <kbd class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">Esc</kbd>
+      </div>
+      <div id="global-search-results" class="max-h-80 overflow-y-auto divide-y divide-slate-100 p-2"></div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Keyboard Shortcuts Guide -->
+  <div id="shortcuts-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full border border-slate-200 overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-base">Kompyuter klaviatura tugmalari</h3>
+        <button id="close-shortcuts-btn" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-5 space-y-2.5 text-xs">
+        <div class="flex items-center justify-between py-1.5 border-b border-slate-100"><span class="text-slate-600">Tezkor qidiruv (dars va so'zlar)</span><kbd class="px-2 py-1 rounded bg-slate-100 font-bold">Ctrl + K</kbd></div>
+        <div class="flex items-center justify-between py-1.5 border-b border-slate-100"><span class="text-slate-600">Fleshkartani aylantirish</span><kbd class="px-2 py-1 rounded bg-slate-100 font-bold">Space</kbd></div>
+        <div class="flex items-center justify-between py-1.5 border-b border-slate-100"><span class="text-slate-600">Oldingi / Keyingi karta yoki dars</span><kbd class="px-2 py-1 rounded bg-slate-100 font-bold">← / →</kbd></div>
+        <div class="flex items-center justify-between py-1.5 border-b border-slate-100"><span class="text-slate-600">Artikl trenajyori: der / die / das</span><kbd class="px-2 py-1 rounded bg-slate-100 font-bold">1 / 2 / 3</kbd></div>
+        <div class="flex items-center justify-between py-1.5"><span class="text-slate-600">Oynalarni yopish</span><kbd class="px-2 py-1 rounded bg-slate-100 font-bold">Esc</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+    <!-- MODAL 4.5: Interactive Lesson Mastery Q&A Exam -->
+  <div id="mastery-quiz-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0">
+        <div>
+          <div id="mq-subtitle" class="text-[11px] font-extrabold uppercase tracking-wider text-amber-700">O'zlashtirish testi</div>
+          <h3 id="mq-title" class="font-extrabold text-slate-900 text-base">Darsni baholash</h3>
+        </div>
+        <button id="close-mastery-modal-btn" type="button" aria-label="Test oynasini yopish" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="mq-body" class="p-6 overflow-y-auto space-y-5"></div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: In-Page Confirmation Dialog -->
+  <div id="confirm-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full border border-slate-200 p-5 space-y-4">
+      <div class="flex items-start gap-3">
+        <div class="p-2 rounded-xl bg-rose-100 text-rose-700 shrink-0"><i data-lucide="trash-2" class="w-5 h-5"></i></div>
+        <div>
+          <h3 id="confirm-modal-title" class="font-bold text-slate-900 text-sm">O'chirishni tasdiqlang</h3>
+          <p id="confirm-modal-text" class="text-xs text-slate-600 mt-1"></p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2">
+        <button id="confirm-cancel-btn" type="button" class="px-3.5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+        <button id="confirm-ok-btn" type="button" class="px-4 py-2 rounded-lg text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white">Ha, o'chirish</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="avatar-world" aria-hidden="true" hidden>
+    <span id="avatar-landing"></span>
+    <span id="avatar-mood">Uf!</span>
+    <div id="avatar-prank-effects"></div>
+    <img id="parkour-avatar" alt="" width="72" height="72" draggable="false">
+  </div>
+  <aside id="study-avatar" aria-label="Lernbuddy o‘quv yordamchisi">
+    <section id="avatar-reminder" class="avatar-card" aria-label="Kunlik eslatma" hidden>
+      <div class="avatar-card-header">
+        <strong class="avatar-heading">Kunlik eslatma</strong>
+        <button type="button" id="avatar-dismiss-reminder" class="avatar-close" aria-label="Eslatmani yopish">×</button>
+      </div>
+      <p id="avatar-reminder-copy" class="avatar-copy mt-1 mb-2" role="status"></p>
+      <button type="button" id="avatar-reminder-cta" class="avatar-button primary" data-nav="roadmap">Bugungi rejaga o‘tish</button>
+    </section>
+    <section id="study-avatar-panel" class="avatar-card" aria-labelledby="avatar-panel-title" hidden>
+      <div class="avatar-card-header">
+        <div>
+          <h2 id="avatar-panel-title" class="avatar-heading">Lernbuddy</h2>
+          <p id="avatar-progress" class="avatar-kicker"></p>
+        </div>
+        <button type="button" id="avatar-close-panel" class="avatar-close" aria-label="Avatar panelini yopish">×</button>
+      </div>
+      <div class="avatar-plan">
+        <div id="avatar-meter" class="avatar-meter" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <p id="avatar-tip" class="avatar-copy"></p>
+        <div class="avatar-actions">
+          <button type="button" id="avatar-quick-action" class="avatar-button primary" data-nav="roadmap">Bugungi reja</button>
+          <button type="button" id="avatar-parkour" class="avatar-button">Parkur</button>
+        </div>
+        <small id="avatar-motion-note" class="avatar-kicker" hidden>Qurilmada animatsiyalar cheklangan.</small>
+      </div>
+      <div class="avatar-settings">
+        <label class="avatar-setting">Sahifada sayr <span class="avatar-switch"><input id="avatar-walk-toggle" type="checkbox" role="switch"><span class="sound-state" aria-hidden="true"></span></span></label>
+        <label class="avatar-setting">Hazilkash rejim <span class="avatar-switch"><input id="avatar-prank-toggle" type="checkbox" role="switch"><span class="sound-state" aria-hidden="true"></span></span></label>
+        <label class="avatar-setting">Kunlik eslatma <span class="avatar-switch"><input id="avatar-reminder-toggle" type="checkbox" role="switch"><span class="sound-state" aria-hidden="true"></span></span></label>
+        <label class="avatar-setting" for="avatar-reminder-time">Vaqt (Toshkent) <input id="avatar-reminder-time" type="time" required></label>
+        <p class="avatar-kicker">Eslatma platforma ochiq bo‘lganda chiqadi.</p>
+        <details class="avatar-credits"><summary>Avatar mualliflari</summary><pre>body/bodies/male/walk.png
+	- Note: see details at https://opengameart.org/content/lpc-character-bases; &#x27;Thick&#x27; Male Revised Run/Climb by JaidynReiman (based on ElizaWy&#x27;s LPC Revised)
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- JaidynReiman
+		- Benjamin K. Smith (BenCreating)
+		- Evert
+		- Eliza Wyatt (ElizaWy)
+		- TheraHedwig
+		- MuffinElZangano
+		- Durrani
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- https://opengameart.org/content/lpc-male-jumping-animation-by-durrani
+		- https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle
+		- https://opengameart.org/content/lpc-revised-character-basics
+		- https://opengameart.org/content/lpc-be-seated
+		- https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads
+		- https://opengameart.org/content/lpc-jump-expanded
+		- https://opengameart.org/content/lpc-character-bases
+
+head/heads/human/male/walk.png
+	- Note: original head by Redshrike, tweaks by BenCreating, modular version by bluecarrot16
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+		- Benjamin K. Smith (BenCreating)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+		- https://opengameart.org/content/lpc-character-bases
+
+head/faces/male/neutral/walk.png
+	- Note: Original by Redshrike, Expressions by ElizaWy, mapped to all frames by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+	- Authors:
+		- JaidynReiman
+		- ElizaWy
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Head
+		- https://opengameart.org/content/ulpc-expanded-expressions
+
+weapon/magic/crystal/universal/foreground/walk/orange.png
+	- Licenses:
+		- OGA-BY 3.0+
+		- GPL 3.0
+		- CC-BY 4.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-more-weapons
+
+weapon/magic/s/universal/foreground/walk/dark.png
+	- Note: Wooden staff by LordNeo, first adapted to LPC by bigbeargames; re-drawn and walk animations added by bluecarrot16
+	- Licenses:
+		- CC0
+	- Authors:
+		- LordNeo
+		- Michael Whitlock (bigbeargames)
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/staff-64-x64
+		- https://opengameart.org/content/lpc-magic-staff
+
+feet/shoes/basic/male/walk.png
+	- Note: original by wulax, edited for v3 base by bluecarrot16, Jump/Sit/Emote/Run/Revised Combat by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- bluecarrot16
+		- Johannes Sjölund (wulax)
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+		- http://opengameart.org/content/lpc-clothing-updates
+		- https://opengameart.org/content/lpc-expanded-socks-shoes
+
+feet/socks/ankle/male/walk.png
+	- Note: original overalls and thin socks by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, socks by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- ElizaWy
+		- Bluecarrot16
+		- Stephen Challener (Redshrike)
+		- Johannes Sjölund (wulax)
+	- Links:
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing
+		- https://opengameart.org/content/lpc-expanded-socks-shoes
+
+legs/cuffed/male/walk.png
+	- Note: Original bases by Redshrike, thrust/shoot bases by Wulax, original overalls by ElizaWy, base animations adapted from v3 overalls by bluecarrot16, pants by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- ElizaWy
+		- Bluecarrot16
+		- Johannes Sjölund (wulax)
+		- Stephen Challener (Redshrike)
+	- Links:
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing
+		- https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+		- https://opengameart.org/content/lpc-expanded-pants
+
+torso/clothes/longsleeve/longsleeves2/male/walk.png
+	- Note: original by ElizaWy; spellcast/thrust/shoot/hurt/male/standalone sleeves adapted from original by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+	- Authors:
+		- ElizaWy
+		- JaidynReiman
+		- Stephen Challener (Redshrike)
+		- Johannes Sjölund (wulax)
+	- Links:
+		- http://opengameart.org/content/lpc-revised-character-basics
+		- https://github.com/ElizaWy/LPC/tree/main/Characters/Clothing
+		- https://opengameart.org/content/lpc-expanded-sit-run-jump-more
+		- https://opengameart.org/content/lpc-expanded-simple-shirts
+
+torso/aprons/apron/male/walk/red.png
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 2.0
+		- GPL 3.0
+	- Authors:
+		- Nila122
+	- Links:
+		- https://opengameart.org/content/lpc-aprons
+
+torso/jacket/collared/male/walk/orange.png
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- bluecarrot16
+	- Links:
+		- https://opengameart.org/content/lpc-gentleman
+		- https://opengameart.org/content/lpc-pirates
+
+arms/bracers/male/walk.png
+	- Note: original by wulax, adjustments by Makrohn, climb/emote/jump/sit/run by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- Matthew Krohn (makrohn)
+		- Johannes Sjölund (wulax)
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+
+hat/cloth/bandana/adult/walk.png
+	- Licenses:
+		- OGA-BY 3.0
+		- CC-BY-SA 3.0
+	- Authors:
+		- Matthew Krohn (makrohn)
+		- JaidynReiman
+		- Marcel van de Steeg (MadMarcel)
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-female-orcogregoblintroll-base-walkcycle
+		- https://github.com/makrohn/Universal-LPC-spritesheet/commit/f50007cb47c235d8896cafae7a613f0b6a9a09a8?short_path=02b86d4#diff-02b86d45789a3e3e8e79519c7d17d15c9e6ecc9b4ddecb1bcd8dfbbaef430b75
+		- https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+
+hat/pirate/bonnie/adult/walk/orange.png
+	- Note: Bonnie Hat by Bluecarrot16, layers and added animations by JaidynReiman
+	- Licenses:
+		- OGA-BY 3.0
+	- Authors:
+		- bluecarrot16
+		- JaidynReiman
+	- Links:
+		- https://opengameart.org/content/lpc-pirates
+		- https://opengameart.org/content/lpc-expanded-hats-facial-helmets
+
+beards/beard/5oclock_shadow/walk.png
+	- Note: Original by Pennomi, repositioning by JaidynReiman.
+	- Licenses:
+		- CC-BY-SA 3.0
+		- GPL 3.0
+	- Authors:
+		- JaidynReiman
+		- Thane Brimhall (pennomi)
+		- laetissima
+	- Links:
+		- https://opengameart.org/content/lpc-base-character-expressions
+
+</pre></details>
+      </div>
+    </section>
+    <div class="avatar-dock-controls">
+
+    <button type="button" id="study-avatar-toggle" aria-controls="study-avatar-panel" aria-expanded="false">
+      <img id="avatar-portrait" src="assets/avatar/standard/idle/down/1.png" alt="" width="34" height="34"> <span>Lernbuddy</span>
+    </button>
+    </div>
+  </aside>
+  <aside id="speech-captions" aria-label="Ovozli subtitr" hidden>
+    <div id="caption-line" lang="de" aria-live="off"></div>
+    <div class="caption-controls">
+      <select id="caption-mode" aria-label="Subtitr ko‘rinishi">
+        <option value="flow">Ibora + urg‘u</option><option value="line">Faqat ibora</option><option value="word">Bitta so‘z</option>
+      </select>
+      <button type="button" id="caption-pause">Pauza</button>
+      <select id="caption-rate" aria-label="Tinglash tezligi">
+        <option value="0.7">0.7×</option><option value="0.85">0.85×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option>
+      </select>
+    <button type="button" id="caption-stop" aria-label="Tinglashni to‘xtatish" title="To‘xtatish">■</button>
+    </div>
+  </aside>
+  <div id="text-menu" aria-label="Matn amallari" role="group" hidden>
+    <p id="menu-selection" lang="de" dir="auto" hidden></p>
+    <button type="button" data-text-command="listen"><i data-lucide="volume-2" aria-hidden="true"></i><span>Belgilangan matnni tinglash</span></button>
+    <button type="button" data-text-command="translate"><i data-lucide="languages" aria-hidden="true"></i><span>O‘zbekchaga tarjima</span></button>
+    <div id="text-meaning" role="status" hidden></div>
+    <button type="button" data-text-command="copy"><i data-lucide="copy" aria-hidden="true"></i><span>Nusxalash</span></button>
+    <hr>
+    <button type="button" data-text-command="reload"><i data-lucide="rotate-cw" aria-hidden="true"></i><span>Sahifani yangilash</span></button>
+  </div>
+  <dialog id="focus-rest" aria-labelledby="focus-rest-title" aria-describedby="focus-rest-help">
+    <span class="rest-kicker">POMODORO · TANAFFUS · <span data-rest-cycle></span></span><h2 id="focus-rest-title">Dam olish vaqti</h2>
+    <div class="rest-ring"><div class="rest-face">
+      <picture><source media="(prefers-reduced-motion: reduce)" srcset="assets/pomodoro-still.png"><img src="assets/pomodoro.gif" alt="" width="88" height="66"></picture>
+      <time role="timer" aria-live="off">05:00</time>
+    </div></div>
+    <p id="focus-rest-help">Ko‘zlaringizni dam oldiring. Vaqt tugagach, platforma o‘zi ochiladi.</p>
+  </dialog>
+  <div id="toast-container" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script src="assets/profile-sync.js?v=2"></script>
+  <script src="assets/caption-display.js"></script>
+  <script src="assets/mobile-fullscreen.js"></script>
+  <script src="assets/live-tv.js?v=5"></script>
+  <script src="assets/movie.js?v=16"></script>
+  <script src="assets/word-notes.js"></script>
+  <script src="assets/study-stats.js?v=3"></script>
+  <script src="assets/dashboard-layout.js?v=4"></script>
+  <script src="assets/platforma.js?v=25"></script>
+  <script src="assets/pomodoro-liquid.js?v=22"></script>
+  <script src="assets/text-actions.js"></script>
+</body>
+</html>

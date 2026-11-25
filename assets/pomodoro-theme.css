@@ -1,0 +1,338 @@
+@property --tomato-ink {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+:root {
+  --tomato-rail: linear-gradient(#fcd34d 0%, #ef4444 24%, #dc2626 60%, #991b1b 100%);
+  --tomato-large-1: url("pomodoro-flow.svg?v=3");
+  --tomato-large-2: url("pomodoro-flow-ribbon.svg?v=3");
+  --tomato-large-3: url("pomodoro-flow-long-drop.svg?v=3");
+  --tomato-large-4: url("pomodoro-flow-double.svg?v=3");
+  --tomato-small-1: url("pomodoro-flow-pearl.svg?v=3");
+  --tomato-small-2: url("pomodoro-flow-twin.svg?v=3");
+  --tomato-small-3: url("pomodoro-flow-short.svg?v=3");
+  --tomato-small-4: url("pomodoro-flow-slant.svg?v=3");
+  --tomato-flow: var(--tomato-large-1);
+}
+html[data-tomato-session] { --tomato-ink: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { transition: --tomato-ink .45s ease-out; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tomato-large-1: url("pomodoro-sauce.svg");
+    --tomato-large-2: var(--tomato-large-1);
+    --tomato-large-3: var(--tomato-large-1);
+    --tomato-large-4: var(--tomato-large-1);
+    --tomato-small-1: var(--tomato-large-1);
+    --tomato-small-2: var(--tomato-large-1);
+    --tomato-small-3: var(--tomato-large-1);
+    --tomato-small-4: var(--tomato-large-1);
+  }
+}
+
+@media screen and (forced-colors: none) {
+  html:is([data-tomato-session], [data-tomato-draining]) #brand-home-btn > div {
+    background-image: var(--tomato-small-2);
+    background-size: 72% calc(.8rem * var(--tomato-ink));
+    background-position: right .2rem top;
+    background-repeat: no-repeat;
+  }
+  .brand-ink-letter { display: inline-block; position: relative; }
+  html:is([data-tomato-session], [data-tomato-draining]) .brand-ink-letter::before {
+    content: ""; position: absolute; pointer-events: none; inset: calc(50% - .5cap - 1px) 0 auto;
+    height: .44em;
+    background: var(--tomato-small-1) center top / 100% calc(100% * var(--tomato-ink)) no-repeat;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root
+  :is(.movie-emblem, :is(span,div):is(.rounded-lg,.rounded-xl,.rounded-2xl,.rounded-full):has(> svg[data-lucide]:only-child)):not(button *, [role="button"] *) {
+    --tomato-emblem-rim: 1;
+    background-image: var(--tomato-large-4);
+    background-position: right .12rem top;
+    background-size: 79% calc(1.15rem * var(--tomato-ink));
+    background-repeat: no-repeat;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root
+  :is(.movie-study, .practice-sidebar):has(h2 svg[data-lucide]) {
+    background-image: var(--tomato-large-2);
+    background-position: right .5rem top;
+    background-size: min(6rem,35%) calc(1.7rem * var(--tomato-ink));
+    background-repeat: no-repeat;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) :is(#movie-seek,#movie-volume,#sound-rate) {
+    appearance: none;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    --rail-end: calc(7px + (100% - 14px) * var(--rail-ratio, 0));
+    --rail-track:
+      var(--tomato-rail) left center / var(--rail-end) 100% no-repeat,
+      linear-gradient(to right, #94a3b8 var(--buffered,0%), var(--border-color) var(--buffered,0%));
+    --rail-thumb:
+      radial-gradient(ellipse at 50% 13%, #528447 0 16%, transparent 20%),
+      radial-gradient(circle at 30% 34%, #ffccae 0 8%, transparent 12%),
+      linear-gradient(150deg,#fa7761,#cb3428 75%);
+    &::-webkit-slider-runnable-track {
+      height: 6px; border-radius: 1rem; background: var(--rail-track);
+    }
+    &::-moz-range-track {
+      height: 6px; border-radius: 1rem; background: var(--rail-track);
+    }
+    &::-moz-range-progress { background: transparent; }
+    &::-webkit-slider-thumb {
+      appearance: none; width: 14px; height: 14px; margin-top: -4px;
+      border-radius: 48% 50% 46% 46%; background: var(--rail-thumb); border: 0;
+    }
+    &::-moz-range-thumb {
+      width: 14px; height: 14px; border-radius: 48% 50% 46% 46%;
+      background: var(--rail-thumb); border: 0;
+    }
+    &:focus-visible { outline: 2px solid var(--action-edge); outline-offset: 2px; }
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root progress:not([data-focus-progress]) {
+    appearance: none; border: 0; border-radius: 1rem; overflow: hidden; background: var(--bg-subtle);
+    &::-webkit-progress-bar { background: var(--bg-subtle); }
+    &::-webkit-progress-value { background: var(--tomato-rail); }
+    &::-moz-progress-bar { background: var(--tomato-rail); }
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root [data-study-fill] {
+    background-image: var(--tomato-rail);
+  }
+
+  /* Flow sits inside the edges, behind readable content. */
+  html:is([data-tomato-session], [data-tomato-draining]) #platform-header::after {
+    content: ""; position: absolute; inset: calc(100% - 2px) 0 auto;
+    height: 2.4rem; pointer-events: none;
+    background: var(--tomato-large-2) right .9rem top / min(9rem,33vw) 100% no-repeat;
+    opacity: calc(.95 * var(--tomato-ink));
+  }
+
+  html:is([data-tomato-session], [data-tomato-draining]) .platform-nav-shell::after {
+    content: ""; pointer-events: none; position: absolute; inset: calc(100% - 1px) 0 auto;
+    height: .95rem;
+    background: var(--tomato-large-2) right .8rem top / min(5rem,35%) 100% no-repeat;
+    opacity: var(--tomato-ink);
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) #progress-activity-chart {
+    background: var(--tomato-large-4) 70% top / min(5rem,20%) calc(1.15rem * var(--tomato-ink)) no-repeat;
+  }
+  #tomato-liquid {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 42; pointer-events: none;
+  }
+
+  html:is([data-tomato-session], [data-tomato-draining]) :is(.motion-card, .rounded-2xl.border, .rounded-3xl.border, [data-layout-card], .study-report, .flip-face, .study-record, .practice-panel, .movie-card:not(.media-hub), #app-root section.bg-slate-900):not(.focus-timer),
+  html:is([data-tomato-session], [data-tomato-draining]) :is(#app-root, #platform-header) :is(button, [role="button"]):not([data-media], [role="switch"], [data-result], .platform-header-nav *, .platform-brand, .focus-tomato, .focus-dock-time, [data-action="timer-duration"], .focus-primary) {
+    background-image: var(--tomato-flow);
+    background-repeat: no-repeat;
+    background-position: var(--tomato-origin, right .3rem top);
+    background-size: min(var(--tomato-width, 5rem),31%) calc(var(--tomato-height, 1.95rem) * var(--tomato-ink));
+  }
+  /* The hub includes empty layout space. Each moving tile owns its painted lip. */
+  html:is([data-tomato-session], [data-tomato-draining]) .media-tile .media-surface {
+    pointer-events:auto;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) .media-surface::after {
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    background:var(--tomato-small-2) right .45rem top / min(38%,4rem) calc(.9rem * var(--tomato-ink)) no-repeat;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) [data-tile="tv"] .media-surface::after {
+    background-image:var(--tomato-small-1); background-position:left .45rem top;
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) .media-tile:has([aria-pressed="true"]) .media-surface::after {
+    background-image:var(--tomato-large-2),var(--tomato-large-4),var(--tomato-small-3);
+    background-position:var(--solid-side) .7rem top, 48% top, var(--solid-side) top 2.8rem;
+    background-size:min(23%,7rem) calc(1.6rem * var(--tomato-ink)),min(17%,5rem) calc(1.25rem * var(--tomato-ink)),.9rem calc(1.8rem * var(--tomato-ink));
+    background-repeat:no-repeat;
+  }
+  /* Large cards have separate runs attached to the top lip and right wall.
+     Sibling parity and the session variation trade the two upper shapes. */
+  html:is([data-tomato-session], [data-tomato-draining]) :is(.rounded-2xl.border, .rounded-3xl.border, .flip-face, [data-layout-card], .study-report, .practice-panel, .movie-card:not(.media-hub), #app-root section.bg-slate-900):not(.motion-card, .study-record, .focus-timer) {
+    --tomato-left-flow: var(--tomato-large-2);
+    --tomato-right-flow: var(--tomato-large-1);
+    background-image: var(--tomato-left-flow), var(--tomato-right-flow), var(--tomato-large-3);
+    background-position: left .4rem top, right .55rem top, right top .75rem;
+    background-size:
+      min(8rem, 25%) calc(1.85rem * var(--tomato-ink)),
+      min(8.75rem, 25%) calc(1.95rem * var(--tomato-ink)),
+      .95rem calc(3.15rem * var(--tomato-ink));
+
+    &:nth-child(even) {
+      --tomato-left-flow: var(--tomato-large-1);
+      --tomato-right-flow: var(--tomato-large-2);
+    }
+    html[data-tomato-layout="1"] &:nth-child(even) {
+      --tomato-left-flow: var(--tomato-large-2);
+      --tomato-right-flow: var(--tomato-large-1);
+    }
+    html[data-tomato-layout="1"] &:nth-child(odd) {
+      --tomato-left-flow: var(--tomato-large-1);
+      --tomato-right-flow: var(--tomato-large-2);
+    }
+
+    @media (min-width: 760px) {
+      background-image: var(--tomato-left-flow), var(--tomato-right-flow), var(--tomato-large-3), var(--tomato-large-4);
+      background-position: left .4rem top, right .55rem top, right top .75rem, var(--tomato-middle, 38%) top;
+      background-size:
+        min(8rem, 25%) calc(1.85rem * var(--tomato-ink)),
+        min(8.75rem, 25%) calc(1.95rem * var(--tomato-ink)),
+        .95rem calc(3.15rem * var(--tomato-ink)),
+        min(6rem, 19%) calc(1.95rem * var(--tomato-ink));
+    }
+  }
+  html[data-tomato-layout="1"] { --tomato-middle: 61%; }
+  html[data-tomato-layout="2"] { --tomato-middle: 50%; }
+
+  html:is([data-tomato-session], [data-tomato-draining]) :is(.motion-card, .study-record),
+  html:is([data-tomato-session], [data-tomato-draining]) :is(#app-root, #platform-header) :is(button, [role="button"]):not([data-media], [role="switch"], [data-result], .platform-header-nav *, .platform-brand, .focus-tomato, .focus-dock-time, [data-action="timer-duration"], .focus-primary) {
+    /* One pearl at the upper right corner. */
+    --tomato-flow: var(--tomato-small-1);
+    --tomato-origin: right .35rem top;
+    --tomato-width: 3.3rem;
+    --tomato-height: 1.1rem;
+    &:nth-child(4n+2) {
+      --tomato-flow: var(--tomato-small-2);
+      --tomato-origin: left .55rem top;
+      --tomato-width: 4.4rem;
+      --tomato-height: 1.05rem;
+    }
+    &:nth-child(4n+3) {
+      /* Three shallow drops along the top-right lip. */
+      --tomato-flow: var(--tomato-small-3);
+      --tomato-origin: right .95rem top;
+      --tomato-width: 4.7rem;
+      --tomato-height: 1rem;
+    }
+    &:nth-child(4n) {
+      /* Diagonal spill entering from the upper left corner. */
+      --tomato-flow: var(--tomato-small-4);
+      --tomato-origin: left .12rem top;
+      --tomato-width: 1.65rem;
+      --tomato-height: 1rem;
+    }
+  }
+  html:is([data-tomato-session], [data-tomato-draining]) :is(#app-root, #platform-header) :is(button, [role="button"]):not([data-media], [role="switch"], [data-result], .platform-header-nav *, .platform-brand, .focus-tomato, .focus-dock-time, [data-action="timer-duration"], .focus-primary) {
+    background-size: min(1.65rem,36%) calc(min(.48rem,var(--tomato-height)) * var(--tomato-ink));
+  }
+
+  html:is([data-tomato-session], [data-tomato-draining]) :is(#platform-header, #app-root)
+  :is(button, [role="button"]):is(.bg-amber-400, .bg-amber-500, .bg-amber-600, .bg-yellow-400,
+    .bg-yellow-500, .practice-primary, [data-action="fc-flip-button"], .card-answer .practice-note .practice-plain,
+    .db-layout-tools [aria-pressed="true"], .db-size, [data-action="timer-break"][aria-pressed="true"]) {
+    --tomato-button-stream: amber;
+    background-image: var(--tomato-large-4);
+    background-repeat: no-repeat;
+    background-position: right .32rem top;
+    background-size: min(5.25rem,64%) min(calc(1.35rem * var(--tomato-ink)), calc(45% * var(--tomato-ink)));
+    &:nth-child(even) { background-image: var(--tomato-large-2); background-position: left .32rem top; }
+  }
+
+  /* Broad shoulders and a short central bead leave the label readable. */
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root
+  :is(#movie-play, button[data-action="fc-flip-button"]) {
+    --tomato-button-stream: featured;
+    background-image: var(--tomato-large-4), var(--tomato-large-2), var(--tomato-small-1);
+    background-repeat: no-repeat;
+    background-position: left .22rem top, right .2rem top, 57% top;
+    background-size:
+      48% min(calc(2.6rem * var(--tomato-ink)), calc(72% * var(--tomato-ink))),
+      33% min(calc(2.4rem * var(--tomato-ink)), calc(67% * var(--tomato-ink))),
+      14% min(calc(.9rem * var(--tomato-ink)), calc(26% * var(--tomato-ink)));
+  }
+
+  html:is([data-tomato-session], [data-tomato-draining]) #app-root #movie-center {
+    --tomato-button-stream: featured;
+    background-image: url("pomodoro-flow-crown.svg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% calc(100% * var(--tomato-ink));
+  }
+
+  html:is([data-tomato-session], [data-tomato-draining]) #movie-view {
+    .media-choices [data-tile="tv"] .media-surface::after {
+      background-image:var(--tomato-large-4);
+      background-position:right .4rem top;
+      background-size:min(52%,7rem) calc(1.45rem * var(--tomato-ink));
+    }
+    &[data-mode="tv"] [data-tile="tv"] .media-surface::after {
+      background-image:var(--tomato-large-2),var(--tomato-large-4),var(--tomato-large-3);
+      background-position:right .8rem top,46% top,right top 2.8rem;
+      background-size:min(27%,10rem) calc(2rem * var(--tomato-ink)),min(21%,7.2rem) calc(1.6rem * var(--tomato-ink)),1.2rem calc(3.5rem * var(--tomato-ink));
+    }
+    .tv-console .movie-stage::after {
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:var(--tomato-large-4) left .4rem top / min(26%,9rem) calc(1.7rem * var(--tomato-ink)) no-repeat,
+                 var(--tomato-large-2) right .55rem top / min(21%,7rem) calc(1.35rem * var(--tomato-ink)) no-repeat;
+    }
+    .tv-console .movie-transport button {
+      background-image:var(--tomato-small-2); background-repeat:no-repeat;
+      background-position:left .12rem top;
+      background-size:65% calc(.85rem * var(--tomato-ink));
+    }
+    .tv-console .movie-transport [data-tv-cc] { background-image:var(--tomato-small-3); background-position:right .1rem top; }
+    .tv-console .movie-transport [data-tv-full] { background-image:var(--tomato-small-4); }
+    .tv-console .movie-transport [data-tv-play] {
+      background-image:var(--tomato-large-4),var(--tomato-small-1);
+      background-position:left .15rem top,right .18rem top;
+      background-size:48% calc(1.2rem * var(--tomato-ink)),22% calc(.75rem * var(--tomato-ink));
+    }
+  }
+
+  .focus-timer[data-tomato-timer]:not(.focus-dock) .focus-primary::before {
+    --tomato-button-stream: amber;
+    height: min(1.35rem,45%);
+  }
+}
+
+@media (min-width: 1024px) {
+  html:is([data-tomato-session], [data-tomato-draining]) #platform-header::after { content: none; }
+}
+
+.platform-nav-shell { position: relative; min-width: 0; }
+@media (width < 1024px) { .platform-nav-shell { display: none; } }
+
+body > footer { position: relative; }
+.tomato-footer-pools {
+  position: absolute; bottom: 100%; left: 0; right: 0; height: 16px;
+  overflow: hidden; pointer-events: none;
+}
+.tomato-footer-pools > i {
+  position: absolute; bottom: 0; transform: translateX(-50%);
+  border-radius: 55% 55% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(ellipse at 32% 40%, #ef8b5c 0%, transparent 25%),
+    linear-gradient(#d74b27, #a82a15);
+}
+.tomato-footer-pools > i > b {
+  position: absolute; bottom: 0; transform: translateX(-50%); border-radius: 80% 65% 20% 15%;
+  background: linear-gradient(#ef8858, #a82a15);
+}
+@media (forced-colors: active) { .tomato-footer-pools { display: none; } }
+
+@media (prefers-reduced-motion: reduce) and (forced-colors: none) {
+  html[data-tomato-session] #app-root
+  :is(.movie-emblem,.motion-card,.study-report,.practice-panel,.practice-sidebar,.movie-study,[data-layout-card])
+  svg[data-lucide]:not(button *,a *,[role="button"] *) > :first-child {
+    stroke: #d04a28;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tomato-footer-pools > [data-impact] { transform-origin: center bottom; }
+  .tomato-footer-pools > [data-impact="dry"] { animation: tomato-spread .32s ease-out; }
+  .tomato-footer-pools > [data-impact="wet"] { animation: tomato-settle .6s ease-out; }
+  html[data-tomato-paused] .tomato-footer-pools > [data-impact] { animation-play-state: paused; }
+}
+@keyframes tomato-spread {
+  from { transform: translateX(-50%) scale(.35,1.7); }
+  to { transform: translateX(-50%) scale(1); }
+}
+@keyframes tomato-settle {
+  0%,100% { transform: translateX(-50%) scale(1); }
+  18% { transform: translateX(calc(-50% + var(--impact-shift, 0px))) scale(1.08,.68); }
+  43% { transform: translateX(calc(-50% - var(--impact-shift, 0px) * .5)) scale(.97,1.22); }
+  70% { transform: translateX(calc(-50% + var(--impact-shift, 0px) * .22)) scale(1.025,.94); }
+}

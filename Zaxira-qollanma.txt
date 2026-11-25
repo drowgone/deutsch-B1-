@@ -1,0 +1,16 @@
+Deutsch B1 — zaxiralash va tiklash
+
+Platforma ishlab turganda zaxira oynasini oching. «Profil (.json)» o‘qish natijalari, qo‘shilgan darslar, mashqlardagi holat, sozlamalar, taymer, subtitrlar va filmning ijro joyini saqlaydi. Filmlar JSON ichiga kirmaydi. Bo‘sh platformada JSON faylni shu oynada tanlang va tiklashni tasdiqlang.
+
+«Butun loyiha (.tar)» profilga qo‘shimcha ravishda platforma kodi, rasmlar, ovozni tanish modeli (mavjud bo‘lsa) va movie/ papkasidagi asl fayllarni ham oladi. Yuklash tugaguncha sahifani yopmang. Film qo‘shish yoki ko‘chirish tugagandan keyin arxiv oling. Nusxani loyiha papkasidan tashqarida, imkon bo‘lsa boshqa diskda saqlang.
+
+Terminaldan: ./start.sh --backup /disk/Deutsch-B1.tar
+Bu buyruq serverga saqlangan oxirgi holatni oladi. Eng yangi ochiq ekran holati uchun brauzerdagi tugmadan foydalaning.
+Tekshirish: ./start.sh --verify-backup /disk/Deutsch-B1.tar
+
+Loyiha butunlay yo‘qolsa, eski server ishlamayotganiga ishonch hosil qiling. Arxivni bo‘sh papkada oching:
+  tar -xf /disk/Deutsch-B1.tar
+  cd Deutsch-B1-Platforma
+  ./start.sh --verify-backup /disk/Deutsch-B1.tar
+  ./start.sh
+Linux uchun Python 3, FFmpeg va ffprobe kerak. Movie keshi qayta tayyorlanadi. Brauzer va tizimning bildirishnoma, ovoz va avtopley ruxsatlari yangi qurilmada qayta beriladi. Tashqi TV efirlari va onlayn videolar uchun tarmoq zarur.

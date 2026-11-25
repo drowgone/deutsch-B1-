@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 176 64" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="sauce" x2="0" y2="1">
+      <stop stop-color="#8c1f10"/>
+      <stop offset=".18" stop-color="#e44826"/>
+      <stop offset=".59" stop-color="#c42f18"/>
+      <stop offset="1" stop-color="#86180e"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#sauce)" d="M0 0H176V5C168 6 164 7 161 8C157 9 157 14 155 18C155 23 149 23 149 18C149 14 149 9 145 8C131 6 121 7 118 8C109 9 109 17 109 24C109 29 103 29 103 24C101 17 101 9 92 8C73 6 58 7 55 8C49 9 49 18 47 25C47 30 41 30 41 25C41 18 41 9 35 8C17 8 12 3 0 0Z"/>
+  <path d="M26 2q16 3 27 2m35 0q12 2 22 1m34-1 13-2" fill="none" stroke="#ffb18c" stroke-opacity=".5" stroke-linecap="round" stroke-width="1.2"/>
+</svg>
